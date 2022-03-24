@@ -67,7 +67,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
     final conn = await MySqlConnection.connect(ConnectionSettings(
         host: 'mysql01.cs.virginia.edu',
         port: 3306,
-        user: 'mjy5xy', // root didnt work
+        user: 'mjy5xy',
         db: 'mjy5xy',
         password:
             'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
@@ -194,7 +194,6 @@ class _MyCustomFormState extends State<MyCustomForm> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                // call on password calculator function
                                 content: Text("Incorrect Input. Please Fix. "),
                               );
                             },
