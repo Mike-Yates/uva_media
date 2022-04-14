@@ -3,17 +3,14 @@ import 'dart:convert';
 // import 'package:flutter_login/flutter_login.dart'; // has dependency issues with flutter sessions unfortunately
 import 'package:uva_media/screens/home.dart';
 import 'package:uva_media/screens/make_post.dart';
-
 // import 'package:flutter_session/flutter_session.dart';
 import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:convert/convert.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
-
   @override
   _MyCustomFormState createState() => _MyCustomFormState();
 }
@@ -24,7 +21,6 @@ class _MyCustomFormState extends State<LoginScreen> {
   // referenced https://www.youtube.com/watch?v=W2WeZaqNB2o
   TextEditingController user = TextEditingController();
   TextEditingController pass = TextEditingController();
-
   Future login() async {
     // change this
     var url = Uri.parse("http:gg.php");
@@ -48,7 +44,6 @@ class _MyCustomFormState extends State<LoginScreen> {
         backgroundColor: Colors.grey,
         fontSize: 16,
       );
-
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -84,22 +79,90 @@ class _MyCustomFormState extends State<LoginScreen> {
                       ? snapshot.data.toString()
                       : 'loading...');
                 }),
-            TextButton(
-              child: Text('login',
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.white,
-                  )),
-              onPressed: () {},
-            ),
-            TextButton(
-              child: Text('Register',
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.white,
-                  )),
-              onPressed: () {},
-            )
+            Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Card(
+                    color: Colors.amber,
+                    elevation: 5,
+                    child: Column(
+                      verticalDirection: VerticalDirection.down,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Text(
+                            'Login',
+                            style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.brown),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: user,
+                            decoration: InputDecoration(
+                              labelText: 'Username',
+                              prefixIcon: Icon(Icons.person),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: pass,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              labelText: 'Password',
+                              prefixIcon: Icon(Icons.person),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: MaterialButton(
+                                  color: Colors.blue,
+                                  child: Text(
+                                    'Login',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    login();
+                                  }),
+                            ),
+                            SizedBox(width: 20),
+                            Expanded(
+                              child: MaterialButton(
+                                  color: Colors.blue,
+                                  child: Text(
+                                    'Register',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  onPressed: () {}),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                      ],
+                    )))
           ],
           // missing material button
         ));
