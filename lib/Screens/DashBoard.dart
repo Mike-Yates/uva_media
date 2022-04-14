@@ -26,12 +26,16 @@ class _MyCustomFormState extends State<DashBoard> {
           automaticallyImplyLeading: false,
         ),
         body: ListView(children: <Widget>[
+          SizedBox(height: 20),
           FutureBuilder(
               future: FlutterSession().get('token'),
               builder: (context, snapshot) {
-                return Text(
-                    snapshot.hasData ? snapshot.data.toString() : 'loading...');
+                return Text(snapshot.hasData
+                    ? snapshot.data
+                        .toString() // snapshot.data.toString() // this gets printed, suggesting that the snapshot has data. although it doesnt show
+                    : 'loading...'); // snapshot.data.toString()
               }),
+          SizedBox(height: 20),
           Center(
               child: MaterialButton(
                   color: Colors.red,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uva_media/Screens/DashBoard.dart';
 import 'dart:convert';
 // import 'package:flutter_login/flutter_login.dart'; // has dependency issues with flutter sessions unfortunately
 import 'package:uva_media/screens/home.dart';
@@ -24,8 +25,6 @@ class _MyCustomFormState extends State<LoginScreen> {
   TextEditingController pass = TextEditingController();
   Future login() async {
     // pass through some type of check input function
-
-    var data = '';
     // for now, add a user instea dof querrying to see if the user already exists
     final conn = await MySqlConnection.connect(ConnectionSettings(
         host: 'mysql01.cs.virginia.edu',
@@ -39,30 +38,7 @@ class _MyCustomFormState extends State<LoginScreen> {
           'insert into Active_Users (email, password, points, reports) values (?, ?, ?, ?)',
           [user.text, pass.text, 0, 0]);
       print('Inserted row id=${result.insertId}');
-      user.clear();
-      pass.clear();
-      data = "Success";
-      // return true;
-    } catch (e) {
-      print(e);
-      print("error was in add_row_to_friends.");
-      // return false;
-    }
 
-    // change this
-    /*
-    var url = Uri.parse("http:gg.php");
-    var response = await http.post(url, body: {
-      "username": user.text,
-      "password": pass.text,
-    });
-    // var data = json.decode(response.body);
-    */
-
-    if (data == "Success") {
-      // toast saying successful login, 1:51
-
-      // assign the users email as their token
       await FlutterSession().set('token', user.text);
       Fluttertoast.showToast(
         // context
@@ -76,10 +52,17 @@ class _MyCustomFormState extends State<LoginScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MyCustomForm(),
+          builder: (context) => DashBoard(),
         ),
       );
-    } else {
+
+      user.clear();
+      pass.clear();
+
+      // return true;
+    } catch (e) {
+      print(e);
+      print("error was in add_row_to_friends.");
       Fluttertoast.showToast(
         // removed (context) after Fluttertoast
         msg: 'Login Failed, Wrong Credentials',
@@ -89,6 +72,7 @@ class _MyCustomFormState extends State<LoginScreen> {
         backgroundColor: Colors.grey,
         fontSize: 16,
       );
+      // return false;
     }
   }
 
