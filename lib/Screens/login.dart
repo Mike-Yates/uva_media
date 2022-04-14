@@ -7,6 +7,7 @@ import 'package:uva_media/screens/make_post.dart';
 import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mysql1/mysql1.dart';
 // import 'package:convert/convert.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,14 +23,42 @@ class _MyCustomFormState extends State<LoginScreen> {
   TextEditingController user = TextEditingController();
   TextEditingController pass = TextEditingController();
   Future login() async {
+    // pass through some type of check input function
+
+    var data = '';
+    // for now, add a user instea dof querrying to see if the user already exists
+    final conn = await MySqlConnection.connect(ConnectionSettings(
+        host: 'mysql01.cs.virginia.edu',
+        port: 3306,
+        user: 'mjy5xy',
+        db: 'mjy5xy',
+        password:
+            'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
+    try {
+      var result = await conn.query(
+          'insert into Active_Users (email, password, points, reports) values (?, ?, ?, ?)',
+          [user.text, pass.text, 0, 0]);
+      print('Inserted row id=${result.insertId}');
+      user.clear();
+      pass.clear();
+      data = "Success";
+      // return true;
+    } catch (e) {
+      print(e);
+      print("error was in add_row_to_friends.");
+      // return false;
+    }
+
     // change this
+    /*
     var url = Uri.parse("http:gg.php");
     var response = await http.post(url, body: {
       "username": user.text,
       "password": pass.text,
     });
+    // var data = json.decode(response.body);
+    */
 
-    var data = json.decode(response.body);
     if (data == "Success") {
       // toast saying successful login, 1:51
 
