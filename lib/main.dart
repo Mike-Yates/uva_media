@@ -5,7 +5,8 @@ import 'package:uva_media/screens/login.dart';
 import 'package:uva_media/screens/DashBoard.dart';
 import 'package:uva_media/screens/make_post.dart';
 
-import 'package:flutter_session/flutter_session.dart';
+// import 'package:flutter_session/flutter_session.dart';
+import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized(); // added 4/14

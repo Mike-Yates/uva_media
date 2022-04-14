@@ -4,7 +4,9 @@ import 'dart:convert';
 import 'package:uva_media/screens/home.dart';
 import 'package:uva_media/screens/make_post.dart';
 
-import 'package:flutter_session/flutter_session.dart';
+// import 'package:flutter_session/flutter_session.dart';
+import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:convert/convert.dart';
