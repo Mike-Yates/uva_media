@@ -34,6 +34,7 @@ class _MyCustomFormState extends State<DashBoard> {
               child: MaterialButton(
                   color: Colors.red,
                   onPressed: () {
+                    FlutterSession().set('token', '');
                     Navigator.push(
                       context,
                       MaterialPageRoute(

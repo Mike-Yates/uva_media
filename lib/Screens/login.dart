@@ -40,8 +40,11 @@ class _MyCustomFormState extends State<LoginScreen> {
       Fluttertoast.showToast(
         // context
         msg: 'Login Successful',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.grey,
+        fontSize: 16,
       );
 
       Navigator.push(
@@ -54,8 +57,11 @@ class _MyCustomFormState extends State<LoginScreen> {
       Fluttertoast.showToast(
         // removed (context) after Fluttertoast
         msg: 'Login Failed, Wrong Credentials',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.grey,
+        fontSize: 16,
       );
     }
   }
@@ -76,6 +82,22 @@ class _MyCustomFormState extends State<LoginScreen> {
                       ? snapshot.data.toString()
                       : 'loading...');
                 }),
+            TextButton(
+              child: Text('login',
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                  )),
+              onPressed: () {},
+            ),
+            TextButton(
+              child: Text('Register',
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                  )),
+              onPressed: () {},
+            )
           ],
           // missing material button
         ));
