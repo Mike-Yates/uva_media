@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mysql1/mysql1.dart';
 class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context){
@@ -47,8 +48,17 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget _postListView(){
-
+  Future<Widget> _postListView() async {
+    final conn = await MySqlConnection.connect(ConnectionSettings(
+        host: 'mysql01.cs.virginia.edu',
+        port: 3306,
+        user: 'mjy5xy',
+        db: 'mjy5xy',
+        password:
+        'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
+    try {
+      var result = await conn
+          .query('select * from Active_Users where email = ?', [user.text]);
     return ListView.builder(
       itemCount: 8,
       itemBuilder: (context, index){
