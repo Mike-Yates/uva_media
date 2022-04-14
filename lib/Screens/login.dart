@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 // import 'package:flutter_login/flutter_login.dart'; // has dependency issues with flutter sessions unfortunately
 import 'package:uva_media/screens/home.dart';
 import 'package:uva_media/screens/make_post.dart';
@@ -6,7 +7,7 @@ import 'package:uva_media/screens/make_post.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:convert/convert.dart';
+// import 'package:convert/convert.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _MyCustomFormState extends State<LoginScreen> {
       "password": pass.text,
     });
 
-    var data = "Success"; // json.decode(response.body);
+    var data = json.decode(response.body);
     if (data == "Success") {
       // toast saying successful login, 1:51
 
@@ -71,7 +72,9 @@ class _MyCustomFormState extends State<LoginScreen> {
             FutureBuilder(
                 future: FlutterSession().get('token'),
                 builder: (context, snapshot) {
-                  return Text(snapshot.hasData ? snapshot.data : 'loading...');
+                  return Text(snapshot.hasData
+                      ? snapshot.data.toString()
+                      : 'loading...');
                 }),
           ],
           // missing material button

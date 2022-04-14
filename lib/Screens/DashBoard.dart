@@ -27,7 +27,8 @@ class _MyCustomFormState extends State<DashBoard> {
           FutureBuilder(
               future: FlutterSession().get('token'),
               builder: (context, snapshot) {
-                return Text(snapshot.hasData ? snapshot.data : 'loading...');
+                return Text(
+                    snapshot.hasData ? snapshot.data.toString() : 'loading...');
               }),
           Center(
               child: MaterialButton(
