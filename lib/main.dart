@@ -8,12 +8,14 @@ import 'package:uva_media/screens/make_post.dart';
 // import 'package:flutter_session/flutter_session.dart';
 import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
 
+import 'Screens/feed.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized(); // added 4/14
   dynamic token = FlutterSession().get('token');
   runApp(MaterialApp(routes: {
-    '/': (context) => (token != '' ? LoginScreen() : DashBoard()), //MyApp(),
+    '/': (context) => (token != '' ? LoginScreen() : HomeView()), //MyApp(),
     '/login': (context) => LoginScreen(), // LoginScreen(),
-    '/post': (context) => MyCustomForm(), // PostPage
+    '/post': (context) => HomeView(), // PostPage
   }));
 }
