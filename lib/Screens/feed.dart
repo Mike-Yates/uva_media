@@ -11,18 +11,18 @@ class HomeView extends StatelessWidget {
   }
 
 
-  Widget _postText(){
+  Widget _postText(user_text, post_text){
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 8,
         vertical: 4,
       ),
       child: ListTile(
-        title: Text("username",
+        title: Text(user_text,
           style: TextStyle(fontWeight: FontWeight.bold
         ),
       ),
-        subtitle: Text("Look at all these posts!!! So cool!!! I love UVA media so much! More text to see how it looks? Yes please!")
+        subtitle: Text(post_text)
       ),
     );
   }
@@ -40,10 +40,10 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget _postView(){
+  Widget _postView(user_text, post_text){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [ _postText(), _postCommentButton()],
+      children: [ _postText(user_text, post_text), _postCommentButton()],
     );
   }
 
@@ -51,7 +51,7 @@ class HomeView extends StatelessWidget {
     return ListView.builder(
       itemCount: 8,
       itemBuilder: (context, index){
-        return _postView();
+        return _postView("username", "Look at all these posts!!! So cool!!! I love UVA media so much! More text to see how it looks? Yes please!");
       });
   }
 }
