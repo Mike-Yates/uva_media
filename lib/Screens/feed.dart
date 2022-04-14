@@ -10,15 +10,6 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget _postAuthorRow(){
-    return Text(
-      "username",
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 12,
-      ),
-    );
-  }
 
   Widget _postText(){
     return Padding(
@@ -26,15 +17,19 @@ class HomeView extends StatelessWidget {
         horizontal: 8,
         vertical: 4,
       ),
-      child: Text(
-        "Look at all these posts!!! So cool!!! I love UVA media so much! More text to see how it looks? Yes please!"
+      child: ListTile(
+        title: Text("username",
+          style: TextStyle(fontWeight: FontWeight.bold
+        ),
+      ),
+        subtitle: Text("Look at all these posts!!! So cool!!! I love UVA media so much! More text to see how it looks? Yes please!")
       ),
     );
   }
 
   Widget _postCommentButton(){
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 45),
       child: GestureDetector(
         onTap: () {},
         child: Text(
@@ -48,13 +43,13 @@ class HomeView extends StatelessWidget {
   Widget _postView(){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [_postAuthorRow(), _postText(), _postCommentButton()],
+      children: [ _postText(), _postCommentButton()],
     );
   }
 
   Widget _postListView(){
     return ListView.builder(
-      itemCount: 30,
+      itemCount: 3,
       itemBuilder: (context, index){
         return _postView();
       });
