@@ -48,6 +48,7 @@ class HomeView extends StatelessWidget {
   }
 
   Widget _postListView(){
+
     return ListView.builder(
       itemCount: 8,
       itemBuilder: (context, index){
