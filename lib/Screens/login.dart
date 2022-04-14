@@ -23,7 +23,31 @@ class _MyCustomFormState extends State<LoginScreen> {
   // referenced https://www.youtube.com/watch?v=W2WeZaqNB2o
   TextEditingController user = TextEditingController();
   TextEditingController pass = TextEditingController();
+
+  bool checkInput(email, password) {
+    if (email == '' || password == '') {
+      return false;
+    }
+    if (email == null || password == null) {
+      return false;
+    }
+    return true;
+  }
+
   Future login() async {
+    if (!checkInput(user.text, pass.text)) {
+      Fluttertoast.showToast(
+        // removed (context) after Fluttertoast
+        msg: 'Register Failed, Invalid Input',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey,
+        fontSize: 16,
+      );
+      return; // end there
+    }
+
     // pass through some type of check input function
     // for now, add a user instea dof querrying to see if the user already exists
     final conn = await MySqlConnection.connect(ConnectionSettings(
@@ -32,7 +56,82 @@ class _MyCustomFormState extends State<LoginScreen> {
         user: 'mjy5xy',
         db: 'mjy5xy',
         password:
-            'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
+        'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
+    try {
+      var result = await conn
+          .query('select * from Active_Users where email = ?', [user.text]);
+      if (result.isEmpty) {
+        Fluttertoast.showToast(
+          // removed (context) after Fluttertoast
+          msg: 'Login Failed, Wrong Credentials',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.grey,
+          fontSize: 16,
+        );
+        return; // end there
+      }
+
+      await FlutterSession().set('token', user.text);
+      Fluttertoast.showToast(
+        // context
+        msg: 'Login Successful',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey,
+        fontSize: 16,
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DashBoard(),
+        ),
+      );
+
+      user.clear();
+      pass.clear();
+
+      // return true;
+    } catch (e) {
+      print(e);
+      Fluttertoast.showToast(
+        // removed (context) after Fluttertoast
+        msg: 'Login Failed, Wrong Credentials',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey,
+        fontSize: 16,
+      );
+      // return false;
+    }
+  }
+
+  Future register() async {
+    // pass through some type of check input function
+    // for now, add a user instea dof querrying to see if the user already exists
+    if (!checkInput(user.text, pass.text)) {
+      Fluttertoast.showToast(
+        // removed (context) after Fluttertoast
+        msg: 'Register Failed, Invalid Input',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey,
+        fontSize: 16,
+      );
+      return; // end there
+    }
+
+    final conn = await MySqlConnection.connect(ConnectionSettings(
+        host: 'mysql01.cs.virginia.edu',
+        port: 3306,
+        user: 'mjy5xy',
+        db: 'mjy5xy',
+        password:
+        'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
     try {
       var result = await conn.query(
           'insert into Active_Users (email, password, points, reports) values (?, ?, ?, ?)',
@@ -65,7 +164,7 @@ class _MyCustomFormState extends State<LoginScreen> {
       print("error was in add_row_to_friends.");
       Fluttertoast.showToast(
         // removed (context) after Fluttertoast
-        msg: 'Login Failed, Wrong Credentials',
+        msg: 'Register Failed, Invalid Input',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
@@ -167,7 +266,9 @@ class _MyCustomFormState extends State<LoginScreen> {
                                       color: Colors.white,
                                     ),
                                   ),
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    register();
+                                  }),
                             ),
                           ],
                         ),
