@@ -34,9 +34,8 @@ class _LoginScreen extends State<LoginScreen> {
             'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
     try {
       var result = await conn
-          .query('select * from ActiveUsers where email = ?', [data.name]);
-      if (true) {
-        // (result.isEmpty)
+          .query('select * from Active_Users where email = ?', [data.name]);
+      if ((result.isEmpty)) {
         return Future.delayed(loginTime).then((_) {
           return 'User not exists';
         });
