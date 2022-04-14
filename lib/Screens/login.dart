@@ -69,14 +69,31 @@ class _LoginScreen extends State<LoginScreen> {
     });
   }
 
-  Future<String> _recoverPassword(String name) {
+  Future<String> _recoverPassword(String name) async {
     debugPrint('Name: $name');
-    return Future.delayed(loginTime).then((_) {
-      if (!users.containsKey(name)) {
-        return 'User not exists';
+    final conn = await MySqlConnection.connect(ConnectionSettings(
+        host: 'mysql01.cs.virginia.edu',
+        port: 3306,
+        user: 'mjy5xy',
+        db: 'mjy5xy',
+        password:
+            'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
+    try {
+      var result = await conn
+          .query('select * from Active_Users where email = ?', [name]);
+      if ((result.isEmpty)) {
+        return Future.delayed(loginTime).then((_) {
+          return 'User not exists';
+        });
+      } else {
+        return 'null';
       }
-      return 'null';
-    });
+      // return true;
+    } catch (e) {
+      print(e);
+      return 'error in _recoverPassword, check login.dart';
+      // return false;
+    }
   }
 
   @override
