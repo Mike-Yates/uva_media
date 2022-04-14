@@ -58,10 +58,20 @@ class _MyCustomFormState extends State<LoginScreen> {
         password:
             'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
     try {
-      var result = await conn.query(
-          'insert into Active_Users (email, password, points, reports) values (?, ?, ?, ?)',
-          [user.text, pass.text, 0, 0]);
-      print('Inserted row id=${result.insertId}');
+      var result = await conn
+          .query('select * from Active_Users where email = ?', [user.text]);
+      if (result.isEmpty) {
+        Fluttertoast.showToast(
+          // removed (context) after Fluttertoast
+          msg: 'Login Failed, Wrong Credentials',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.grey,
+          fontSize: 16,
+        );
+        return; // end there
+      }
 
       await FlutterSession().set('token', user.text);
       Fluttertoast.showToast(
