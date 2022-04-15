@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mysql1/mysql1.dart';
 import 'package:uva_media/Screens/make_post.dart';
+import 'package:intl/intl.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -61,6 +62,12 @@ class _HomePageState extends State<HomePage> {
     return votes.toString();
   }
 
+  String dateTime_to_string(DateTime postTime) {
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+    String answer = dateFormat.format(postTime);
+    return answer.substring(0, 16); // cut off seconds
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,8 +89,16 @@ class _HomePageState extends State<HomePage> {
                             votes_to_string(snapshot.data![index]['votes'])),
                       ),
                       contentPadding: const EdgeInsets.all(10),
-                      title: Text(snapshot.data![index]['post_text']),
-                      subtitle: Text(snapshot.data![index]['post_text']),
+                      title: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(snapshot.data![index]['post_text'],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18)),
+                      ),
+                      subtitle: Center(
+                        child: Text(dateTime_to_string(
+                            snapshot.data![index]['post_time'])),
+                      ),
                       onTap:
                           () {}, // should take the person to the comments page. this might be difficult to implement.
                     ),
