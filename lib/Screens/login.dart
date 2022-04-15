@@ -56,7 +56,7 @@ class _MyCustomFormState extends State<LoginScreen> {
         user: 'mjy5xy',
         db: 'mjy5xy',
         password:
-        'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
+            'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
     try {
       var result = await conn
           .query('select * from Active_Users where email = ?', [user.text]);
@@ -131,7 +131,7 @@ class _MyCustomFormState extends State<LoginScreen> {
         user: 'mjy5xy',
         db: 'mjy5xy',
         password:
-        'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
+            'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
     try {
       var result = await conn.query(
           'insert into Active_Users (email, password, points, reports) values (?, ?, ?, ?)',
