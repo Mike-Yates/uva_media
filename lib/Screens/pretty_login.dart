@@ -35,7 +35,7 @@ class _LoginScreen2 extends State<LoginScreen2> {
     try {
       var result = await conn.query(
           'select * from Active_Users where email = ? and password = ?',
-          [data.name, calculatePassword('1234', data.password.toString())]);
+          [data.name, calculatePassword(data.name, data.password)]);
       if ((result.isEmpty)) {
         return Future.delayed(loginTime).then((_) {
           return 'User Credentials incorrect';
@@ -66,7 +66,7 @@ class _LoginScreen2 extends State<LoginScreen2> {
     try {
       var result = await conn.query(
           'insert into Active_Users (email, password, points, reports) values (?, ?, ?, ?)',
-          [data.name, calculatePassword('1234', data.password.toString()), 0, 0]);
+          [data.name, calculatePassword(data.name.toString(), data.password.toString()), 0, 0]);
       // print('Inserted row id=${result.insertId}');
       await FlutterSession().set('token', data.name);
       return Future.delayed(loginTime).then((_) {

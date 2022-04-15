@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert'; // for the utf8.encode method
 
-String calculatePassword(String pin, String keyword){
+String calculatePassword(String email, String keyword){
+  var len = email.length + 1; //Gets length of the email + 1 to avoid zeros
+  var asc = email.codeUnitAt(0) + 1; //Gets ascii value of first digit of email + 1 to avoid zeros
+  var mult = len * asc; //Multiply to get a larger value
+  var strMult = mult.toString(); //convert to string
+  strMult = strMult + strMult + strMult + strMult; //concat to guarantee its at least 4 digits
+  var pin = strMult.substring(0, 4);
   // input checking
   if(pin.length != 4){
     return 'Invalid pin';
@@ -16,7 +22,6 @@ String calculatePassword(String pin, String keyword){
   } else if(keyword.isEmpty){
     return 'Invalid keyword';
   }
-
   var bytes1 = utf8.encode(pin+keyword);  // data being hashed
   var digest1 = sha512.convert(bytes1);
   String raw_password = digest1.toString();
