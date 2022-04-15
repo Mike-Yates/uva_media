@@ -36,7 +36,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('UVA Media'),
+        title: Text(
+            'my name is mike, and this is my first post. Extra textttttttttttt kkkkkkkkkkk kk okkkkkk abcdef ghi'),
       ),
       body: FutureBuilder(
           future: loadAllPosts(),
@@ -76,7 +77,9 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => DetailScreen(
-                                postId: "abc"), // MyCustomForm DashBoard
+                                postId: snapshot.data![index]['post_id'],
+                                postText: snapshot.data![index]
+                                    ['post_text']), // MyCustomForm DashBoard
                           ),
                         );
                       },

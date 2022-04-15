@@ -22,7 +22,26 @@ Future<List> loadAllPosts() async {
         db: 'mjy5xy',
         password: 'Winter2022!!'));
     var result = await conn.query('select * from Post');
+    for (var row in result) {
+      posts.add(row);
+    }
+  } catch (err) {
+    print(err);
+  }
+  return posts;
+}
 
+Future<List> loadAllComments(int postId) async {
+  List posts = [];
+  try {
+    final conn = await MySqlConnection.connect(ConnectionSettings(
+        host: 'mysql01.cs.virginia.edu',
+        port: 3306,
+        user: 'mjy5xy',
+        db: 'mjy5xy',
+        password: 'Winter2022!!'));
+    var result =
+        await conn.query('select * from Comment where post_id = ?', [postId]);
     for (var row in result) {
       posts.add(row);
     }
