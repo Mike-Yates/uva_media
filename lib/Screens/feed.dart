@@ -8,7 +8,7 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(
         title: Text("UVA Media"),
       ),
-      body: _postListView(),
+      body: _postPull(),
     );
   }
 
@@ -64,22 +64,25 @@ class HomeView extends StatelessWidget {
       for (var row in data) {
         resultMap[row[0] = row[1]];
     }
-      return 0;
+      return ListView.builder(
+          itemCount: resultMap.length,
+          itemBuilder: (context, index) {
+            return _postView(resultMap.keys,
+                resultMap.values);
+          });
     } catch (e) {
       return e;
-      // return false;
     }
 
-
   }
 
-  Widget _postListView() {
-    var result = _postPull();
-    return ListView.builder(
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          return _postView(result,
-              "Look at all these posts!!! So cool!!! I love UVA media so much! More text to see how it looks? Yes please!");
-        });
-  }
-}
+  //Widget _postListView() {
+    //var result = _postPull();
+    //return ListView.builder(
+      //  itemCount: 3,
+        //itemBuilder: (context, index) {
+          //return _postView(result,
+            //  "Look at all these posts!!! So cool!!! I love UVA media so much! More text to see how it looks? Yes please!");
+        //});
+ // }
+/}
