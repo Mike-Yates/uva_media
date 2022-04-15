@@ -60,9 +60,28 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18)),
                       ),
-                      subtitle: Center(
-                        child: Text(dateTimeToString(
-                            snapshot.data![index]['post_time'])),
+                      subtitle: Row(
+                        children: <Widget>[
+                          Text(dateTimeToString(
+                              snapshot.data![index]['post_time'])),
+                          SizedBox(width: 10),
+                          IconButton(
+                            icon: Icon(
+                              Icons.arrow_circle_down_rounded,
+                              color: Colors.green,
+                            ),
+                            iconSize: 40,
+                            onPressed: () {},
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.arrow_circle_up_rounded,
+                              color: Colors.green,
+                            ),
+                            iconSize: 40,
+                            onPressed: () {},
+                          ),
+                        ],
                       ),
                       trailing: IconButton(
                         icon: Icon(
