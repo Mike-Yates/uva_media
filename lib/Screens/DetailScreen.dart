@@ -1,46 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:uva_media/Screens/DashBoard.dart';
-import 'package:uva_media/Screens/make_post.dart';
-import 'package:uva_media/Screens/DetailScreen.dart';
+import 'package:mysql1/mysql1.dart';
 import 'package:uva_media/functions/functions.dart';
 
-class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
+class DetailScreen extends StatelessWidget {
+  // In the constructor, require a Todo.
+  const DetailScreen({Key? key, required this.postId, required this.postText})
+      : super(key: key);
 
-  @override
-  _MyCustomFormState createState() => _MyCustomFormState();
-}
+  // Declare a field that holds the postId.
+  final int postId;
+  final String postText;
 
-// Define a corresponding State class.
-// This class holds the data related to the Form.
-class _MyCustomFormState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // Hide the debug banner
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(backgroundColor: Colors.amber),
-      title: 'UVA Media',
-      home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
+    // Use the Todo to create the UI.
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            'my name is mike, and this is my first post. Extra textttttttttttt kkkkkkkkkkk kk okkkkkk abcdef ghi'),
+        title: Text('Details'),
       ),
       body: FutureBuilder(
-          future: loadAllPosts(),
+          future: loadAllComments(postId),
           builder: (BuildContext ctx, AsyncSnapshot<List> snapshot) => snapshot
                   .hasData
               ? ListView.builder(
@@ -48,22 +27,17 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (BuildContext context, index) => Card(
                     margin: const EdgeInsets.all(10),
                     child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: Color.fromARGB(255, 220, 105, 11),
-                        child:
-                            Text(votesToString(snapshot.data![index]['votes'])),
-                      ),
                       contentPadding: const EdgeInsets.all(10),
                       title: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(snapshot.data![index]['post_text'],
+                        child: Text(snapshot.data![index]['comment_text'],
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18)),
                       ),
                       subtitle: Row(
                         children: <Widget>[
                           Text(dateTimeToString(
-                              snapshot.data![index]['post_time'])),
+                              snapshot.data![index]['comment_time'])),
                           SizedBox(width: 10),
                           IconButton(
                             icon: Icon(
@@ -108,18 +82,6 @@ class _HomePageState extends State<HomePage> {
               : Center(
                   child: CircularProgressIndicator(),
                 )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MyCustomForm(),
-            ),
-          );
-        },
-        backgroundColor: Colors.green,
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }

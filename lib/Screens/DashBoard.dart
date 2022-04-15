@@ -23,10 +23,7 @@ class _MyCustomFormState extends State<DashBoard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Dashboard'),
-          automaticallyImplyLeading: false,
-        ),
+        appBar: AppBar(title: Text('Comments', textAlign: TextAlign.center)),
         body: ListView(children: <Widget>[
           SizedBox(height: 20),
           FutureBuilder(
@@ -51,6 +48,7 @@ class _MyCustomFormState extends State<DashBoard> {
                     );
                   },
                   child: Text('Logout'))),
+/*
           MaterialButton(
               color: Colors.red,
               onPressed: () {
@@ -62,6 +60,7 @@ class _MyCustomFormState extends State<DashBoard> {
                 );
               },
               child: Text('Another page')),
+              */
         ]));
   }
   // Create a text controller and use

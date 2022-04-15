@@ -64,9 +64,22 @@ class _LoginScreen2 extends State<LoginScreen2> {
         password:
             'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
     try {
+      var results = await conn
+          .query('select * from Active_Users where email = ?', [data.name]);
+      if ((!results.isEmpty)) {
+        return Future.delayed(loginTime).then((_) {
+          return 'User already exists';
+        });
+      }
+
       var result = await conn.query(
           'insert into Active_Users (email, password, points, reports) values (?, ?, ?, ?)',
-          [data.name, calculatePassword(data.name.toString(), data.password.toString()), 0, 0]);
+          [
+            data.name,
+            calculatePassword(data.name.toString(), data.password.toString()),
+            0,
+            0
+          ]);
       // print('Inserted row id=${result.insertId}');
       await FlutterSession().set('token', data.name);
       return Future.delayed(loginTime).then((_) {
