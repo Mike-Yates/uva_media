@@ -15,30 +15,27 @@ class MyCustomForm extends StatefulWidget {
 class _MyCustomFormState extends State<MyCustomForm> {
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
-  final myController = TextEditingController();
   final myController2 = TextEditingController();
   String dropdownValue = 'Text';
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    myController.dispose();
     myController2.dispose();
     super.dispose();
   }
 
-  bool checkInput(text, type) {
-    if (text == '' || type == '') {
+  bool checkInput(text) {
+    if (text == '') {
       return false;
     }
-    if (text == null || type == null) {
+    if (text == null) {
       return false;
     }
     return true;
   }
 
-
-  Future<bool> add_row_to_post(type, text) async {
+  Future<bool> add_row_to_post(text) async {
     final conn = await MySqlConnection.connect(ConnectionSettings(
         host: 'mysql01.cs.virginia.edu',
         port: 3306,
@@ -49,14 +46,43 @@ class _MyCustomFormState extends State<MyCustomForm> {
 
     try {
       var time = DateTime.now().toUtc();
+      var type = dropdownValue;
       var result = await conn.query(
           'insert into Post (post_id, post_time, post_text, votes, post_report, post_type) values (?,?,?,?,?,? )',
           [null, time, text, 0, 0, type]);
-      var result2 = await conn.query(
-          'insert into Post_Creator2 (email, pass, post_id) values (?,?,?)',
-          ["email", "password", 0]);
-      //**********need to fix this**************//
-      myController.clear();
+      //************************************************
+      // Inserts into Post_Creator.  Need to retrieve email and password from active session.
+      // Need to get the autoincrement value
+
+      //var result2 = await conn.query(
+      //  'insert into Post_Creator2 (email, pass, post_id) values (?,?,?)',
+      //["email", "password", 0]);
+
+      //************************************************
+      // Inserts specific types of posts.
+      // Need to get the autoincrement value
+
+      //if(type == "Text"){
+      // var text_res = await conn.query(
+      //'insert into Text_Post (post_id, color) values (?,?)',
+      // [id, color]);
+      //}
+      //if(type == "Image"){
+      // var image_res = await conn.query(
+      //'insert into Images (post_id, content) values (?,?)',
+      // [id, content]);
+      //}
+      //if(type == "Video"){
+      // var video_res = await conn.query(
+      //'insert into Videos (post_id, content) values (?,?)',
+      // [id, content]);
+      //}
+      //if(type == "Poll"){
+      // var poll_res = await conn.query(
+      //'insert into Poll_Post (post_id, num_options) values (?,?)',
+      // [id, options]);
+      //}
+      //************************************************
       myController2.clear();
       return true;
     } catch (e) {
@@ -112,7 +138,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                       dropdownValue = newValue!;
                     });
                   },
-                  items: <String>['Text', 'Image', 'Video', 'Four']
+                  items: <String>['Text', 'Image', 'Video', 'Poll']
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -156,8 +182,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         primary: Colors.blue,
                       ),
                       onPressed: () {
-                        bool input_correctness =
-                            checkInput(myController.text, myController2.text);
+                        bool input_correctness = checkInput(myController2.text);
                         if (!input_correctness) {
                           showDialog(
                             context: context,
@@ -168,8 +193,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                             },
                           );
                         } else {
-                          add_row_to_post(
-                              myController.text, myController2.text);
+                          add_row_to_post(myController2.text);
                         }
                       },
                       child: Text('Add', style: TextStyle(color: Colors.white)),
