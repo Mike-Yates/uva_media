@@ -18,70 +18,70 @@ class DetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Details'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(15),
-              child: Text(
-                postText,
-                style: TextStyle(
-                  color: Colors.deepOrange,
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal,
-                ),
-                textScaleFactor: 2,
-              ),
-            ),
-            SizedBox(height: 25),
-            FutureBuilder(
-                future: loadAllComments(postId),
-                builder: (BuildContext ctx, AsyncSnapshot<List> snapshot) =>
-                    snapshot.hasData
-                        ? ListView.builder(
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (BuildContext context, index) => Card(
-                              margin: const EdgeInsets.all(5),
-                              child: ListTile(
-                                /*leading: CircleAvatar(
-                                  backgroundColor:
-                                      Color.fromARGB(255, 220, 105, 11),
-                                  child: Text(votesToString(
-                                      snapshot.data![index]['votes'])),
-                                ),*/
-                                contentPadding: const EdgeInsets.all(10),
-                                title: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                      snapshot.data![index]['comment_text'],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18)),
-                                ),
-                                subtitle: Center(
-                                  child: Text(dateTimeToString(
-                                      snapshot.data![index]['comment_time'])),
-                                ),
-                                trailing: IconButton(
-                                  icon: Icon(
-                                    Icons.report,
-                                    color: Colors.red,
-                                  ),
-                                  iconSize: 40,
-                                  onPressed: () {},
-                                ),
-                                onTap: () {},
-                              ),
+      body: FutureBuilder(
+          future: loadAllComments(postId),
+          builder: (BuildContext ctx, AsyncSnapshot<List> snapshot) => snapshot
+                  .hasData
+              ? ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, index) => Card(
+                    margin: const EdgeInsets.all(10),
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.all(10),
+                      title: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(snapshot.data![index]['comment_text'],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18)),
+                      ),
+                      subtitle: Row(
+                        children: <Widget>[
+                          Text(dateTimeToString(
+                              snapshot.data![index]['comment_time'])),
+                          SizedBox(width: 10),
+                          IconButton(
+                            icon: Icon(
+                              Icons.arrow_circle_down_rounded,
+                              color: Colors.green,
                             ),
-                          )
-                        : Center(
-                            child: CircularProgressIndicator(),
-                          )),
-          ],
-        ),
-      ),
+                            iconSize: 40,
+                            onPressed: () {},
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.arrow_circle_up_rounded,
+                              color: Colors.green,
+                            ),
+                            iconSize: 40,
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(
+                          Icons.report,
+                          color: Colors.red,
+                        ),
+                        iconSize: 40,
+                        onPressed: () {},
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailScreen(
+                                postId: snapshot.data![index]['post_id'],
+                                postText: snapshot.data![index]
+                                    ['post_text']), // MyCustomForm DashBoard
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                )
+              : Center(
+                  child: CircularProgressIndicator(),
+                )),
     );
   }
 }
