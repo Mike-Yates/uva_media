@@ -107,8 +107,14 @@ class _HomePageState extends State<HomePage> {
                         iconSize: 40,
                         onPressed: () {},
                       ),
-                      onTap:
-                          () {}, // should take the person to the comments page. this might be difficult to implement.
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MyCustomForm(),
+                          ),
+                        );
+                      }, // should take the person to the comments page. this might be difficult to implement.
                     ),
                   ),
                 )
