@@ -17,6 +17,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
   // of the TextField.
   final myController2 = TextEditingController();
   String dropdownValue = 'Text';
+  int postId = 0; // default to 0 because it doesnt allow null
 
   @override
   void dispose() {
@@ -35,6 +36,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
     return true;
   }
 
+  int post_idToInt(var inc) {
+    return inc;
+  }
+
   Future<bool> add_row_to_post(text) async {
     final conn = await MySqlConnection.connect(ConnectionSettings(
         host: 'mysql01.cs.virginia.edu',
@@ -50,6 +55,13 @@ class _MyCustomFormState extends State<MyCustomForm> {
       var result = await conn.query(
           'insert into Post (post_id, post_time, post_text, votes, post_report, post_type) values (?,?,?,?,?,? )',
           [null, time, text, 0, 0, type]);
+
+      if (result.insertId != null) {
+        postId = post_idToInt(result.insertId);
+        print(postId);
+      } else {
+        // we got problems
+      }
       //************************************************
       // Inserts into Post_Creator.  Need to retrieve email and password from active session.
       // Need to get the autoincrement value
