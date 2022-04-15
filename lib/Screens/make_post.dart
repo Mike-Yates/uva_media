@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 import 'package:mysql1/mysql1.dart';
+import 'package:flutter_login/flutter_login.dart';
+import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
 
 class MyCustomForm extends StatefulWidget {
   const MyCustomForm({Key? key}) : super(key: key);
@@ -83,6 +85,16 @@ class _MyCustomFormState extends State<MyCustomForm> {
             child: Column(
               children: <Widget>[
                 SizedBox(height: 20.0),
+
+                FutureBuilder(
+                    future: FlutterSession().get('token'),
+                    builder: (context, snapshot) {
+                      return Text(snapshot.hasData
+                          ? snapshot.data
+                              .toString() // snapshot.data.toString() // this gets printed, suggesting that the snapshot has data. although it doesnt show
+                          : 'loading...'); // snapshot.data.toString()
+                    }),
+
                 Text(
                   'Name:',
                   style: TextStyle(

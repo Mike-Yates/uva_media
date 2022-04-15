@@ -3,6 +3,7 @@ import 'package:flutter_login/flutter_login.dart';
 import 'package:uva_media/screens/home.dart';
 import 'package:uva_media/screens/make_post.dart';
 import 'package:mysql1/mysql1.dart';
+import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginScreen2 extends StatefulWidget {
@@ -29,13 +30,16 @@ class _LoginScreen2 extends State<LoginScreen2> {
         password:
             'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
     try {
-      var result = await conn
-          .query('select * from Active_Users where email = ?', [data.name]);
+      var result = await conn.query(
+          'select * from Active_Users where email = ? and password = ?',
+          [data.name, data.password]);
+
       if ((result.isEmpty)) {
         return Future.delayed(loginTime).then((_) {
-          return 'User not exists';
+          return 'User Credentials incorrect';
         });
       } else {
+        await FlutterSession().set('token', data.name);
         return Future.delayed(loginTime).then((_) {
           return null;
         });
@@ -61,7 +65,8 @@ class _LoginScreen2 extends State<LoginScreen2> {
       var result = await conn.query(
           'insert into Active_Users (email, password, points, reports) values (?, ?, ?, ?)',
           [data.name, data.password, 0, 0]);
-      print('Inserted row id=${result.insertId}');
+      // print('Inserted row id=${result.insertId}');
+      await FlutterSession().set('token', data.name);
       return Future.delayed(loginTime).then((_) {
         return null;
       });
