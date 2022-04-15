@@ -57,47 +57,28 @@ class HomeView extends StatelessWidget {
         db: 'mjy5xy',
         password:
         'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
+    Map<String, int> resultMap = {};
     try {
-      var result = await conn
+      var data = await conn
           .query('select post_id, post_text from Post');
-      return result;
-    } catch (e) {
-      print(e);
-      return e;
-      // return false;
+      for (var row in data) {
+        resultMap[row[0] = row[1]];
     }
-  }
-
-  Future<Object> _postNum() async {
-    final conn = await MySqlConnection.connect(ConnectionSettings(
-        host: 'mysql01.cs.virginia.edu',
-        port: 3306,
-        user: 'mjy5xy',
-        db: 'mjy5xy',
-        password:
-        'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
-    try {
-      Map<String, int> resultMap;
-      var count = await conn
-          .query('SELECT COUNT(*) FROM Post');
-      for (var row in count) {
-        print('Name: ${row[0]}, email: ${row[1]}');
-      }
       return 0;
     } catch (e) {
-      print(e);
       return e;
       // return false;
     }
+
+
   }
 
   Widget _postListView() {
     var result = _postPull();
-    var num = _postNum().toString();
     return ListView.builder(
         itemCount: 3,
         itemBuilder: (context, index) {
-          return _postView(num,
+          return _postView(result,
               "Look at all these posts!!! So cool!!! I love UVA media so much! More text to see how it looks? Yes please!");
         });
   }
