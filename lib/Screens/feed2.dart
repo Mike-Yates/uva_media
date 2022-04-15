@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-
-// import this to be able to call json.decode()
 import 'dart:convert';
-
-// import this to easily send HTTP request
 import 'package:http/http.dart' as http;
+import 'package:mysql1/mysql1.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -37,15 +34,25 @@ class _HomePageState extends State<HomePage> {
   Future<List> _loadData() async {
     List posts = [];
     try {
-      // This is an open REST API endpoint for testing purposes
-      const API = 'https://jsonplaceholder.typicode.com/posts';
+      // const API = 'https://jsonplaceholder.typicode.com/posts';
 
-      final http.Response response = await http.get(Uri.parse(API));
-      posts = json.decode(response.body);
+      final conn = await MySqlConnection.connect(ConnectionSettings(
+          host: 'mysql01.cs.virginia.edu',
+          port: 3306,
+          user: 'mjy5xy',
+          db: 'mjy5xy',
+          password: 'Winter2022!!'));
+      var result = await conn.query('select * from Post');
+
+      for (var row in result) {
+        posts.add(row);
+        // print('Name: ${row[0]}, email: ${row[1]}');
+      }
+      // final http.Response response = await http.get(Uri.parse(API));
+      // posts = json.decode(response.body);
     } catch (err) {
       print(err);
     }
-
     return posts;
   }
 
@@ -53,7 +60,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Kindacode.com'),
+          title: Text('UVA Media'),
         ),
         body: FutureBuilder(
             future: _loadData(),
@@ -65,8 +72,8 @@ class _HomePageState extends State<HomePage> {
                           margin: const EdgeInsets.all(10),
                           child: ListTile(
                             contentPadding: const EdgeInsets.all(10),
-                            title: Text(snapshot.data![index]['title']),
-                            subtitle: Text(snapshot.data![index]['body']),
+                            title: Text(snapshot.data![index]['post_text']),
+                            subtitle: Text(snapshot.data![index]['post_text']),
                           ),
                         ),
                       )
