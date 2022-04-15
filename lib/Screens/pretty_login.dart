@@ -137,7 +137,7 @@ class _LoginScreen2 extends State<LoginScreen2> {
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => HomeView(
-              email:
+              user_email:
                   email), // this decides where user is taken after logging in  --------------------------------------------------
         ));
       },

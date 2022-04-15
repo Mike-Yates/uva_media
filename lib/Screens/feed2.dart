@@ -7,34 +7,13 @@ import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key, required this.user_email}) : super(key: key);
-
   final String user_email;
 
   @override
-  _MyCustomFormState createState() => _MyCustomFormState();
+  State<HomeView> createState() => _HomeViewState();
 }
 
-// Define a corresponding State class.
-// This class holds the data related to the Form.
-class _MyCustomFormState extends State<HomeView> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      // Hide the debug banner
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(backgroundColor: Colors.amber),
-      title: 'UVA Media',
-      home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,7 +94,8 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => MyCustomForm(email: "user_email"), // fix
+              builder: (context) =>
+                  MyCustomForm(email: widget.user_email), // fix
             ),
           );
         },

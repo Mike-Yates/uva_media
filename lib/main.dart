@@ -15,9 +15,12 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized(); // added 4/14
   dynamic token = FlutterSession().get('token');
   runApp(MaterialApp(routes: {
-    '/': (context) =>
-        (token != '' ? LoginScreen2() : HomeView()), //MyApp(), // DashBoard
+    '/': (context) => (token != ''
+        ? LoginScreen2()
+        : HomeView(
+            user_email: token,
+          )), //MyApp(), // DashBoard
     '/login': (context) => LoginScreen2(), // LoginScreen2(),
-    '/post': (context) => MyCustomForm(), // PostPage
+    '/post': (context) => MyCustomForm(email: token), // PostPage
   }));
 }

@@ -17,6 +17,7 @@ class MyCustomForm extends StatefulWidget {
 class _MyCustomFormState extends State<MyCustomForm> {
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
+
   final myController2 = TextEditingController();
   String dropdownValue = 'Text';
   int postId = 0; // default to 0 because it doesnt allow null
@@ -61,6 +62,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
       if (result.insertId != null) {
         postId = post_idToInt(result.insertId);
         print(postId);
+        print(widget.email);
       } else {
         // we got problems
       }
@@ -108,6 +110,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
 
   @override
   Widget build(BuildContext context) {
+    String email = widget.email;
     return Scaffold(
       appBar: AppBar(
         title: const Text('New Post', textAlign: TextAlign.center),
