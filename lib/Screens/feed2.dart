@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mysql1/mysql1.dart';
+import 'package:uva_media/Screens/make_post.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -56,29 +57,53 @@ class _HomePageState extends State<HomePage> {
     return posts;
   }
 
+  String votes_to_string(int votes) {
+    return votes.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('UVA Media'),
-        ),
-        body: FutureBuilder(
-            future: _loadData(),
-            builder: (BuildContext ctx, AsyncSnapshot<List> snapshot) =>
-                snapshot.hasData
-                    ? ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (BuildContext context, index) => Card(
-                          margin: const EdgeInsets.all(10),
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.all(10),
-                            title: Text(snapshot.data![index]['post_text']),
-                            subtitle: Text(snapshot.data![index]['post_text']),
-                          ),
-                        ),
-                      )
-                    : Center(
-                        child: CircularProgressIndicator(),
-                      )));
+      appBar: AppBar(
+        title: Text('UVA Media'),
+      ),
+      body: FutureBuilder(
+          future: _loadData(),
+          builder: (BuildContext ctx, AsyncSnapshot<List> snapshot) => snapshot
+                  .hasData
+              ? ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, index) => Card(
+                    margin: const EdgeInsets.all(10),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: Color.fromARGB(255, 220, 105, 11),
+                        child: Text(
+                            votes_to_string(snapshot.data![index]['votes'])),
+                      ),
+                      contentPadding: const EdgeInsets.all(10),
+                      title: Text(snapshot.data![index]['post_text']),
+                      subtitle: Text(snapshot.data![index]['post_text']),
+                      onTap:
+                          () {}, // should take the person to the comments page. this might be difficult to implement.
+                    ),
+                  ),
+                )
+              : Center(
+                  child: CircularProgressIndicator(),
+                )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MyCustomForm(),
+            ),
+          );
+        },
+        backgroundColor: Colors.green,
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }
