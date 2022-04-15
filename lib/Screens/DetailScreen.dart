@@ -3,7 +3,6 @@ import 'package:mysql1/mysql1.dart';
 import 'package:uva_media/functions/functions.dart';
 
 class DetailScreen extends StatelessWidget {
-  // In the constructor, require a Todo.
   const DetailScreen({Key? key, required this.postId, required this.postText})
       : super(key: key);
 

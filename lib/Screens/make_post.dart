@@ -4,7 +4,9 @@ import 'package:flutter_login/flutter_login.dart';
 import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
 
 class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({Key? key}) : super(key: key);
+  const MyCustomForm({Key? key, required this.email}) : super(key: key);
+
+  final String email;
 
   @override
   _MyCustomFormState createState() => _MyCustomFormState();

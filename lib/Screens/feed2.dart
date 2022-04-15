@@ -3,9 +3,12 @@ import 'package:uva_media/Screens/DashBoard.dart';
 import 'package:uva_media/Screens/make_post.dart';
 import 'package:uva_media/Screens/DetailScreen.dart';
 import 'package:uva_media/functions/functions.dart';
+import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
+  const HomeView({Key? key, required this.user_email}) : super(key: key);
+
+  final String user_email;
 
   @override
   _MyCustomFormState createState() => _MyCustomFormState();
@@ -112,7 +115,7 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => MyCustomForm(),
+              builder: (context) => MyCustomForm(email: "user_email"), // fix
             ),
           );
         },
