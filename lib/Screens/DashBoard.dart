@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uva_media/Screens/pretty_login.dart';
 // import 'package:flutter_session/flutter_session.dart';
 import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
 
@@ -6,7 +7,7 @@ import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
 import 'package:mysql1/mysql1.dart';
 
 import 'feed2.dart';
-import 'login.dart';
+// import 'login.dart';
 import 'make_post.dart';
 
 class DashBoard extends StatefulWidget {
@@ -45,7 +46,7 @@ class _MyCustomFormState extends State<DashBoard> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => LoginScreen(),
+                        builder: (context) => LoginScreen2(),
                       ),
                     );
                   },

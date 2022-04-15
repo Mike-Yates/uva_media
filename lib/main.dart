@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:uva_media/screens/home.dart';
-import 'package:uva_media/screens/login.dart';
+// import 'package:uva_media/screens/login.dart';
 import 'package:uva_media/screens/DashBoard.dart';
 import 'package:uva_media/screens/make_post.dart';
 import 'package:uva_media/screens/pretty_login.dart';
@@ -17,7 +17,7 @@ void main() {
   runApp(MaterialApp(routes: {
     '/': (context) =>
         (token != '' ? LoginScreen2() : HomeView()), //MyApp(), // DashBoard
-    '/login': (context) => LoginScreen2(), // LoginScreen(),
+    '/login': (context) => LoginScreen2(), // LoginScreen2(),
     '/post': (context) => MyCustomForm(), // PostPage
   }));
 }
