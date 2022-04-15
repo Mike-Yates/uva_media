@@ -17,37 +17,28 @@ class _MyCustomFormState extends State<MyCustomForm> {
   // of the TextField.
   final myController = TextEditingController();
   final myController2 = TextEditingController();
-  final myController3 = TextEditingController();
+  String dropdownValue = 'Text';
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     myController.dispose();
     myController2.dispose();
-    myController3.dispose();
     super.dispose();
   }
 
-  bool checkInput(name, major, year) {
-    if (name == '' || major == '' || year == '') {
+  bool checkInput(text, type) {
+    if (text == '' || type == '') {
       return false;
     }
-    if (name == null || major == null || year == null) {
-      return false;
-    }
-    try {
-      int.parse(year);
-    } catch (e) {
-      return false;
-    }
-    int x = int.parse(year);
-    if (x > 4 || x < 0) {
+    if (text == null || type == null) {
       return false;
     }
     return true;
   }
 
-  Future<bool> add_row_to_friends(name, major, year) async {
+
+  Future<bool> add_row_to_post(type, text) async {
     final conn = await MySqlConnection.connect(ConnectionSettings(
         host: 'mysql01.cs.virginia.edu',
         port: 3306,
@@ -55,18 +46,22 @@ class _MyCustomFormState extends State<MyCustomForm> {
         db: 'mjy5xy',
         password:
             'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
+
     try {
+      var time = DateTime.now().toUtc();
       var result = await conn.query(
-          'insert into friends (name, major, year) values (?, ?, ?)',
-          [name, major, year]);
-      print('Inserted row id=${result.insertId}');
+          'insert into Post (post_id, post_time, post_text, votes, post_report, post_type) values (?,?,?,?,?,? )',
+          [null, time, text, 0, 0, type]);
+      var result2 = await conn.query(
+          'insert into Post_Creator2 (email, pass, post_id) values (?,?,?)',
+          ["email", "password", 0]);
+      //**********need to fix this**************//
       myController.clear();
       myController2.clear();
-      myController3.clear();
       return true;
     } catch (e) {
       print(e);
-      print("error was in add_row_to_friends.");
+      print("error was in add_row_to_post.");
       return false;
     }
   }
@@ -75,8 +70,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Friend Book', textAlign: TextAlign.center),
-        backgroundColor: Colors.teal[800],
+        title: const Text('New Post', textAlign: TextAlign.center),
+        backgroundColor: Colors.blue,
       ),
       body: SafeArea(
         child: Container(
@@ -95,7 +90,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                     }),
 
                 Text(
-                  'Name:',
+                  'Post Type: ',
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -103,25 +98,31 @@ class _MyCustomFormState extends State<MyCustomForm> {
                     fontSize: 20,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Container(
-                    color: Colors.white.withOpacity(0.5),
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      controller: myController,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        backgroundColor: Colors.teal[800],
-                      ),
-                    ),
+                DropdownButton<String>(
+                  value: dropdownValue,
+                  icon: const Icon(Icons.arrow_downward),
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.blue),
+                  underline: Container(
+                    height: 2,
+                    color: Colors.blueAccent,
                   ),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropdownValue = newValue!;
+                    });
+                  },
+                  items: <String>['Text', 'Image', 'Video', 'Four']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
                 ),
                 SizedBox(height: 30.0),
                 Text(
-                  'Major:',
+                  'Text: ',
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -140,38 +141,12 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         color: Colors.white,
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        backgroundColor: Colors.teal[800],
+                        backgroundColor: Colors.blue,
                       ),
                     ),
                   ),
                 ),
                 SizedBox(height: 30.0),
-                Text(
-                  'Year:',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    // backgroundColor: Colors.black.withOpacity(0.5),
-                    fontSize: 20,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Container(
-                    color: Colors.white.withOpacity(0.5),
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      controller: myController3,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        backgroundColor: Colors.teal[800],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 25.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
@@ -181,8 +156,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         primary: Colors.blue,
                       ),
                       onPressed: () {
-                        bool input_correctness = checkInput(myController.text,
-                            myController2.text, myController3.text);
+                        bool input_correctness =
+                            checkInput(myController.text, myController2.text);
                         if (!input_correctness) {
                           showDialog(
                             context: context,
@@ -193,8 +168,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
                             },
                           );
                         } else {
-                          add_row_to_friends(myController.text,
-                              myController2.text, myController3.text);
+                          add_row_to_post(
+                              myController.text, myController2.text);
                         }
                       },
                       child: Text('Add', style: TextStyle(color: Colors.white)),
