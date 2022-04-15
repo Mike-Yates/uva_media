@@ -36,8 +36,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            'my name is mike, and this is my first post. Extra textttttttttttt kkkkkkkkkkk kk okkkkkk abcdef ghi'),
+        title: Text('UVA Media'),
       ),
       body: FutureBuilder(
           future: loadAllPosts(),
