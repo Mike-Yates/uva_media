@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:mysql1/mysql1.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
 
   @override
-  _HomeView createState() => _HomeView();
+  _MyCustomFormState createState() => _MyCustomFormState();
 }
 
 // Define a corresponding State class.
 // This class holds the data related to the Form.
-class _HomeView extends State<HomeView> {
+class _MyCustomFormState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,33 +55,11 @@ class _HomeView extends State<HomeView> {
     );
   }
 
-  Future<Object> _postPull() async {
-    final conn = await MySqlConnection.connect(ConnectionSettings(
-        host: 'mysql01.cs.virginia.edu',
-        port: 3306,
-        user: 'mjy5xy',
-        db: 'mjy5xy',
-        password:
-            'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
-    Map<String, int> resultMap = {};
-    try {
-      var data = await conn.query('select post_id, post_text from Post');
-      for (var row in data) {
-        resultMap[row[0] = row[1]];
-      }
-      return 0;
-    } catch (e) {
-      return e;
-      // return false;
-    }
-  }
-
   Widget _postListView() {
-    var result = _postPull();
     return ListView.builder(
-        itemCount: 3,
+        itemCount: 8,
         itemBuilder: (context, index) {
-          return _postView(result,
+          return _postView("username",
               "Look at all these posts!!! So cool!!! I love UVA media so much! More text to see how it looks? Yes please!");
         });
   }
