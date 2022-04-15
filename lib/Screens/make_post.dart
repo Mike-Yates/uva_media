@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
+import 'package:uva_media/functions/functions.dart';
 
 class MyCustomForm extends StatefulWidget {
   const MyCustomForm({Key? key}) : super(key: key);
@@ -193,7 +194,21 @@ class _MyCustomFormState extends State<MyCustomForm> {
                             },
                           );
                         } else {
-                          add_row_to_post(myController2.text);
+                          if(dropdownValue == "Text") {
+                            add_row_to_post(myController2.text);
+                          }
+                          else if(dropdownValue == "Image") {
+                            openImagePopup(context);
+                            add_row_to_post(myController2.text);
+                          }
+                          else if(dropdownValue == "Video") {
+                            openVideoPopup(context);
+                            add_row_to_post(myController2.text);
+                          }
+                          else {
+                            openPollPopup(context);
+                            add_row_to_post(myController2.text);
+                          }
                         }
                       },
                       child: Text('Add', style: TextStyle(color: Colors.white)),

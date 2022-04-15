@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mysql1/mysql1.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 String votesToString(int votes) {
   return votes.toString();
@@ -49,4 +50,74 @@ Future<List> loadAllComments(int postId) async {
     print(err);
   }
   return posts;
+}
+
+openImagePopup(context) {
+  Alert(
+      context: context,
+      title: "Insert Media: ",
+      content: Column(
+        children: <Widget>[
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Image URL: ',
+            ),
+          ),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(
+            "Add",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        )
+      ]).show();
+}
+openVideoPopup(context) {
+  Alert(
+      context: context,
+      title: "Insert Media: ",
+      content: Column(
+        children: <Widget>[
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Video URL: ',
+            ),
+          ),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(
+            "Add",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        )
+      ]).show();
+}
+openPollPopup(context) {
+  Alert(
+      context: context,
+      title: "Insert Media: ",
+      content: Column(
+        children: <Widget>[
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Image URL: ',
+            ),
+          ),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(
+            "Add",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        )
+      ]).show();
 }
