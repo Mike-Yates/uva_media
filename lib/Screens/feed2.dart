@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:mysql1/mysql1.dart';
+import 'package:uva_media/Screens/DashBoard.dart';
 import 'package:uva_media/Screens/make_post.dart';
-import 'package:intl/intl.dart';
+import 'package:uva_media/Screens/DetailScreen.dart';
+import 'package:uva_media/functions/functions.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -21,7 +20,7 @@ class _MyCustomFormState extends State<HomeView> {
       // Hide the debug banner
       debugShowCheckedModeBanner: false,
       theme: ThemeData(backgroundColor: Colors.amber),
-      title: 'Kindacode.com',
+      title: 'UVA Media',
       home: HomePage(),
     );
   }
@@ -33,41 +32,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future<List> _loadData() async {
-    List posts = [];
-    try {
-      // const API = 'https://jsonplaceholder.typicode.com/posts';
-
-      final conn = await MySqlConnection.connect(ConnectionSettings(
-          host: 'mysql01.cs.virginia.edu',
-          port: 3306,
-          user: 'mjy5xy',
-          db: 'mjy5xy',
-          password: 'Winter2022!!'));
-      var result = await conn.query('select * from Post');
-
-      for (var row in result) {
-        posts.add(row);
-        // print('Name: ${row[0]}, email: ${row[1]}');
-      }
-      // final http.Response response = await http.get(Uri.parse(API));
-      // posts = json.decode(response.body);
-    } catch (err) {
-      print(err);
-    }
-    return posts;
-  }
-
-  String votes_to_string(int votes) {
-    return votes.toString();
-  }
-
-  String dateTime_to_string(DateTime postTime) {
-    DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
-    String answer = dateFormat.format(postTime);
-    return answer.substring(0, 16); // cut off seconds
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +39,7 @@ class _HomePageState extends State<HomePage> {
         title: Text('UVA Media'),
       ),
       body: FutureBuilder(
-          future: _loadData(),
+          future: loadAllPosts(),
           builder: (BuildContext ctx, AsyncSnapshot<List> snapshot) => snapshot
                   .hasData
               ? ListView.builder(
@@ -85,8 +49,8 @@ class _HomePageState extends State<HomePage> {
                     child: ListTile(
                       leading: CircleAvatar(
                         backgroundColor: Color.fromARGB(255, 220, 105, 11),
-                        child: Text(
-                            votes_to_string(snapshot.data![index]['votes'])),
+                        child:
+                            Text(votesToString(snapshot.data![index]['votes'])),
                       ),
                       contentPadding: const EdgeInsets.all(10),
                       title: Padding(
@@ -96,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                                 fontWeight: FontWeight.bold, fontSize: 18)),
                       ),
                       subtitle: Center(
-                        child: Text(dateTime_to_string(
+                        child: Text(dateTimeToString(
                             snapshot.data![index]['post_time'])),
                       ),
                       trailing: IconButton(
@@ -111,10 +75,11 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MyCustomForm(),
+                            builder: (context) => DetailScreen(
+                                postId: "abc"), // MyCustomForm DashBoard
                           ),
                         );
-                      }, // should take the person to the comments page. this might be difficult to implement.
+                      },
                     ),
                   ),
                 )
