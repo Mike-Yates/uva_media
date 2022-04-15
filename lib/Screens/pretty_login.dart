@@ -4,6 +4,7 @@ import 'package:uva_media/Screens/password_calculator.dart';
 import 'package:uva_media/screens/home.dart';
 import 'package:uva_media/screens/make_post.dart';
 import 'package:uva_media/screens/feed2.dart';
+import 'package:uva_media/functions/functions.dart';
 
 import 'package:mysql1/mysql1.dart';
 import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
@@ -20,6 +21,7 @@ class LoginScreen2 extends StatefulWidget {
 // This class holds the data related to the Form.
 class _LoginScreen2 extends State<LoginScreen2> {
   Duration get loginTime => Duration(milliseconds: 2250);
+  String email = "";
 
   Future<String?> _authUser(LoginData data) async {
     //added async
@@ -42,6 +44,7 @@ class _LoginScreen2 extends State<LoginScreen2> {
         });
       } else {
         await FlutterSession().set('token', data.name);
+        email = data.name;
         return Future.delayed(loginTime).then((_) {
           return null;
         });
@@ -82,6 +85,7 @@ class _LoginScreen2 extends State<LoginScreen2> {
           ]);
       // print('Inserted row id=${result.insertId}');
       await FlutterSession().set('token', data.name);
+      email = stringToString(data.name);
       return Future.delayed(loginTime).then((_) {
         return null;
       });
@@ -132,8 +136,9 @@ class _LoginScreen2 extends State<LoginScreen2> {
       onSignup: _signupUser,
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) =>
-              HomeView(), // this decides where user is taken after logging in  --------------------------------------------------
+          builder: (context) => HomeView(
+              user_email:
+                  email), // this decides where user is taken after logging in  --------------------------------------------------
         ));
       },
       onRecoverPassword: _recoverPassword,

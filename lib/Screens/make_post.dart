@@ -5,7 +5,9 @@ import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
 import 'package:uva_media/functions/functions.dart';
 
 class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({Key? key}) : super(key: key);
+  const MyCustomForm({Key? key, required this.email}) : super(key: key);
+
+  final String email;
 
   @override
   _MyCustomFormState createState() => _MyCustomFormState();
@@ -16,8 +18,10 @@ class MyCustomForm extends StatefulWidget {
 class _MyCustomFormState extends State<MyCustomForm> {
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
+
   final myController2 = TextEditingController();
   String dropdownValue = 'Text';
+  int postId = 0; // default to 0 because it doesnt allow null
 
   @override
   void dispose() {
@@ -36,6 +40,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
     return true;
   }
 
+  int post_idToInt(var inc) {
+    return inc;
+  }
+
   Future<bool> add_row_to_post(text) async {
     final conn = await MySqlConnection.connect(ConnectionSettings(
         host: 'mysql01.cs.virginia.edu',
@@ -51,6 +59,14 @@ class _MyCustomFormState extends State<MyCustomForm> {
       var result = await conn.query(
           'insert into Post (post_id, post_time, post_text, votes, post_report, post_type) values (?,?,?,?,?,? )',
           [null, time, text, 0, 0, type]);
+
+      if (result.insertId != null) {
+        postId = post_idToInt(result.insertId);
+        print(postId);
+        print(widget.email);
+      } else {
+        // we got problems
+      }
       //************************************************
       // Inserts into Post_Creator.  Need to retrieve email and password from active session.
       // Need to get the autoincrement value
@@ -95,6 +111,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
 
   @override
   Widget build(BuildContext context) {
+    String email = widget.email;
     return Scaffold(
       appBar: AppBar(
         title: const Text('New Post', textAlign: TextAlign.center),

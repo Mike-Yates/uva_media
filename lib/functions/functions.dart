@@ -13,6 +13,10 @@ String dateTimeToString(DateTime postTime) {
   return answer.substring(0, 16); // cut off seconds
 }
 
+String stringToString(var toChange) {
+  return toChange;
+}
+
 Future<List> loadAllPosts() async {
   List posts = [];
   try {
