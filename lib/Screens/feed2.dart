@@ -99,20 +99,13 @@ class _HomePageState extends State<HomePage> {
                         child: Text(dateTime_to_string(
                             snapshot.data![index]['post_time'])),
                       ),
-                      trailing: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            IconButton(
-                              icon: Icon(Icons.arrow_circle_up_outlined),
-                              onPressed: () {},
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.arrow_circle_down_outlined),
-                              onPressed: () {},
-                            ),
-                          ],
+                      trailing: IconButton(
+                        icon: Icon(
+                          Icons.report,
+                          color: Colors.red,
                         ),
+                        iconSize: 40,
+                        onPressed: () {},
                       ),
                       onTap:
                           () {}, // should take the person to the comments page. this might be difficult to implement.
