@@ -4,11 +4,14 @@ import 'dart:convert';
 // import 'package:flutter_login/flutter_login.dart'; // has dependency issues with flutter sessions unfortunately
 import 'package:uva_media/screens/home.dart';
 import 'package:uva_media/screens/make_post.dart';
+import 'package:uva_media/screens/feed.dart';
+
 // import 'package:flutter_session/flutter_session.dart';
 import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
 // import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mysql1/mysql1.dart';
+
 // import 'package:convert/convert.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -151,7 +154,7 @@ class _MyCustomFormState extends State<LoginScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DashBoard(),
+          builder: (context) => HomeView(),
         ),
       );
 

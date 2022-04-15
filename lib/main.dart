@@ -16,7 +16,7 @@ void main() {
   dynamic token = FlutterSession().get('token');
   runApp(MaterialApp(routes: {
     '/': (context) =>
-        (token != '' ? LoginScreen2() : MyCustomForm()), //MyApp(), // DashBoard
+        (token != '' ? LoginScreen2() : HomeView()), //MyApp(), // DashBoard
     '/login': (context) => LoginScreen2(), // LoginScreen(),
     '/post': (context) => MyCustomForm(), // PostPage
   }));

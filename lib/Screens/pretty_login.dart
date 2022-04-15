@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:uva_media/screens/home.dart';
 import 'package:uva_media/screens/make_post.dart';
+import 'package:uva_media/screens/feed.dart';
+
 import 'package:mysql1/mysql1.dart';
 import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
@@ -118,7 +120,7 @@ class _LoginScreen2 extends State<LoginScreen2> {
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) =>
-              MyCustomForm(), // this decides where user is taken after logging in  --------------------------------------------------
+              HomeView(), // this decides where user is taken after logging in  --------------------------------------------------
         ));
       },
       onRecoverPassword: _recoverPassword,

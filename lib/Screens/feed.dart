@@ -17,7 +17,7 @@ class _HomeView extends State<HomeView> {
       appBar: AppBar(
         title: Text("UVA Media"),
       ),
-      body: _postPull(),
+      body: _postListView(),
     );
   }
 
@@ -63,32 +63,27 @@ class _HomeView extends State<HomeView> {
         user: 'mjy5xy',
         db: 'mjy5xy',
         password:
-        'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
+            'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
     Map<String, int> resultMap = {};
     try {
       var data = await conn.query('select post_id, post_text from Post');
       for (var row in data) {
         resultMap[row[0] = row[1]];
       }
-      return ListView.builder(
-          itemCount: resultMap.length,
-          itemBuilder: (context, index) {
-            return _postView(resultMap.keys,
-                resultMap.values);
-          });
+      return 0;
     } catch (e) {
       return e;
+      // return false;
     }
   }
 
-//Widget _postListView() {
-//var result = _postPull();
-//return ListView.builder(
-//  itemCount: 3,
-//itemBuilder: (context, index) {
-//return _postView(result,
-//  "Look at all these posts!!! So cool!!! I love UVA media so much! More text to see how it looks? Yes please!");
-//});
-// }
-
-
+  Widget _postListView() {
+    var result = _postPull();
+    return ListView.builder(
+        itemCount: 3,
+        itemBuilder: (context, index) {
+          return _postView(result,
+              "Look at all these posts!!! So cool!!! I love UVA media so much! More text to see how it looks? Yes please!");
+        });
+  }
+}
