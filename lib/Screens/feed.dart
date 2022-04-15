@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mysql1/mysql1.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
+  const HomeView({Key? key}) : super(key: key);
+
+  @override
+  _HomeView createState() => _HomeView();
+}
+
+// Define a corresponding State class.
+// This class holds the data related to the Form.
+class _HomeView extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +21,6 @@ class HomeView extends StatelessWidget {
     );
   }
 
-
   Widget _postText(user_text, post_text) {
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -20,12 +28,11 @@ class HomeView extends StatelessWidget {
         vertical: 4,
       ),
       child: ListTile(
-          title: Text(user_text,
-            style: TextStyle(fontWeight: FontWeight.bold
-            ),
+          title: Text(
+            user_text,
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          subtitle: Text(post_text)
-      ),
+          subtitle: Text(post_text)),
     );
   }
 
@@ -45,7 +52,7 @@ class HomeView extends StatelessWidget {
   Widget _postView(user_text, post_text) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [ _postText(user_text, post_text), _postCommentButton()],
+      children: [_postText(user_text, post_text), _postCommentButton()],
     );
   }
 
@@ -56,13 +63,13 @@ class HomeView extends StatelessWidget {
         user: 'mjy5xy',
         db: 'mjy5xy',
         password:
-        'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
+            'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
     Map<String, int> resultMap = {};
     try {
-      var data = await conn
-          .query('select post_id, post_text from Post');
+      var data = await conn.query('select post_id, post_text from Post');
       for (var row in data) {
         resultMap[row[0] = row[1]];
+
     }
       return ListView.builder(
           itemCount: resultMap.length,
@@ -70,6 +77,8 @@ class HomeView extends StatelessWidget {
             return _postView(resultMap.keys,
                 resultMap.values);
           });
+      }
+      return 0;
     } catch (e) {
       return e;
     }
@@ -85,4 +94,5 @@ class HomeView extends StatelessWidget {
             //  "Look at all these posts!!! So cool!!! I love UVA media so much! More text to see how it looks? Yes please!");
         //});
  // }
-/}
+
+
