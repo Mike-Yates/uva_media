@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
+import 'package:uva_media/Screens/password_calculator.dart';
 import 'package:uva_media/screens/home.dart';
 import 'package:uva_media/screens/make_post.dart';
 import 'package:uva_media/screens/feed2.dart';
@@ -34,8 +35,7 @@ class _LoginScreen2 extends State<LoginScreen2> {
     try {
       var result = await conn.query(
           'select * from Active_Users where email = ? and password = ?',
-          [data.name, data.password]);
-
+          [data.name, calculatePassword('1234', data.password.toString())]);
       if ((result.isEmpty)) {
         return Future.delayed(loginTime).then((_) {
           return 'User Credentials incorrect';
@@ -66,7 +66,7 @@ class _LoginScreen2 extends State<LoginScreen2> {
     try {
       var result = await conn.query(
           'insert into Active_Users (email, password, points, reports) values (?, ?, ?, ?)',
-          [data.name, data.password, 0, 0]);
+          [data.name, calculatePassword('1234', data.password.toString()), 0, 0]);
       // print('Inserted row id=${result.insertId}');
       await FlutterSession().set('token', data.name);
       return Future.delayed(loginTime).then((_) {
