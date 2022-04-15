@@ -9,7 +9,7 @@ import 'package:uva_media/screens/pretty_login.dart';
 // import 'package:flutter_session/flutter_session.dart';
 import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
 
-import 'Screens/feed.dart';
+import 'Screens/feed2.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized(); // added 4/14

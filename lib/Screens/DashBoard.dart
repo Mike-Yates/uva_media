@@ -5,7 +5,7 @@ import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
 // import 'package:flutter/services.dart';
 import 'package:mysql1/mysql1.dart';
 
-import 'feed.dart';
+import 'feed2.dart';
 import 'login.dart';
 import 'make_post.dart';
 
@@ -26,8 +26,6 @@ class _MyCustomFormState extends State<DashBoard> {
           title: Text('Dashboard'),
           automaticallyImplyLeading: false,
         ),
-
-
         body: ListView(children: <Widget>[
           SizedBox(height: 20),
           FutureBuilder(
@@ -51,9 +49,7 @@ class _MyCustomFormState extends State<DashBoard> {
                       ),
                     );
                   },
-                  child: Text('Logout'))
-          ),
-
+                  child: Text('Logout'))),
           MaterialButton(
               color: Colors.red,
               onPressed: () {

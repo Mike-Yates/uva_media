@@ -4,7 +4,7 @@ import 'dart:convert';
 // import 'package:flutter_login/flutter_login.dart'; // has dependency issues with flutter sessions unfortunately
 import 'package:uva_media/screens/home.dart';
 import 'package:uva_media/screens/make_post.dart';
-import 'package:uva_media/screens/feed.dart';
+import 'package:uva_media/screens/feed2.dart';
 
 // import 'package:flutter_session/flutter_session.dart';
 import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
