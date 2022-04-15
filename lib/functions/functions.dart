@@ -56,6 +56,30 @@ Future<List> loadAllComments(int postId) async {
   return posts;
 }
 
+openTextPopup(context) {
+  Alert(
+      context: context,
+      title: "Select Color: ",
+      content: Column(
+        children: <Widget>[
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Color: ',
+            ),
+          ),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(
+            "Add",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        )
+      ]).show();
+}
+
 openImagePopup(context) {
   Alert(
       context: context,
@@ -74,11 +98,12 @@ openImagePopup(context) {
           onPressed: () => Navigator.pop(context),
           child: Text(
             "Add",
-            style: TextStyle(color: Colors.white, fontSize: 20),
+            style: TextStyle(color: Colors.white, fontSize: 18),
           ),
         )
       ]).show();
 }
+
 openVideoPopup(context) {
   Alert(
       context: context,
@@ -97,11 +122,12 @@ openVideoPopup(context) {
           onPressed: () => Navigator.pop(context),
           child: Text(
             "Add",
-            style: TextStyle(color: Colors.white, fontSize: 20),
+            style: TextStyle(color: Colors.white, fontSize: 18),
           ),
         )
       ]).show();
 }
+
 openPollPopup(context) {
   Alert(
       context: context,
@@ -120,7 +146,7 @@ openPollPopup(context) {
           onPressed: () => Navigator.pop(context),
           child: Text(
             "Add",
-            style: TextStyle(color: Colors.white, fontSize: 20),
+            style: TextStyle(color: Colors.white, fontSize: 18),
           ),
         )
       ]).show();
