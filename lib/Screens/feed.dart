@@ -77,9 +77,13 @@ class HomeView extends StatelessWidget {
         password:
         'Winter2022!!')); // in the future, password of database should not be used. how do i do this?
     try {
+      Map<String, int> resultMap;
       var count = await conn
           .query('SELECT COUNT(*) FROM Post');
-      return count;
+      for (var row in count) {
+        print('Name: ${row[0]}, email: ${row[1]}');
+      }
+      return 0;
     } catch (e) {
       print(e);
       return e;
