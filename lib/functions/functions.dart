@@ -19,6 +19,10 @@ String stringToString(var toChange) {
   return toChange;
 }
 
+bool boolToBool(var incoming) {
+  return incoming;
+}
+
 Future<List> loadAllPosts() async {
   List posts = [];
   try {
@@ -54,20 +58,45 @@ Future<List> loadAllPostsAndUserLikes(String username) async {
     }
     var result2 = await conn
         .query('select * from Liked_Posts where username = ?', [username]);
+    print('workinggggggg1');
     for (var row2 in result2) {
       posts2.add(row2);
+      print('workinggggggg2');
     }
 
     for (var j = 0; j < posts.length; j++) {
       // for each row in Posts
+      print("entered loop");
       bool exists = false;
       for (var i = 0; i < posts2.length; i++) {
+        print("loop stage 2");
         // for each in Liked_Posts
         // check if row’s post id is equal to the row’s post id
+        print(posts2[i]['post_id']); // prints 4 the first round
+        print(posts[j]['post_id']); // prints 1 the first round
+
+        if (posts2[i]['post_id'] is int) {
+          print('why isnt this working then.');
+        }
+        if (posts[j]['post_id'] is int) {
+          print('why isnt this working then2');
+        }
+        if (posts2[i]['post_id'] is String) {
+          print('posts2[i] is a string...');
+        }
+        if (posts[j]['post_id'] is String) {
+          print('posts[j] is a string...');
+        }
+        print("got to here");
+
         if (posts2[i]['post_id'] == posts[j]['post_id']) {
           // if they both have the same post id, it means the user has either liked or disliked the post.
           exists = true;
+          print('loop stage 3');
           if (posts2[i]['liked']) {
+            print('checking if user liked post');
+            print(posts2[i]['post_id']);
+            print(posts2[i]['liked']);
             // this is either 1 (true) or 0 (false)
             // if its true, the user has liked this post.
             // append to list
@@ -81,6 +110,8 @@ Future<List> loadAllPostsAndUserLikes(String username) async {
         }
       }
       if (!exists) {
+        print("didnt exist");
+        print(j);
         // if the posts wasnt found in liked_posts,
         posts[j]['liked'] = false;
         posts[j]['disliked'] = false;
