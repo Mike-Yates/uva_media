@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mysql1/mysql1.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 // INSERT INTO `Liked_Posts` (`post_id`, `username`, `liked`) VALUES ('4', 'mike@gmail.com', '1');
 
@@ -109,4 +110,100 @@ Future<List> loadAllComments(int postId) async {
     print(err);
   }
   return posts;
+}
+
+openTextPopup(context) {
+  Alert(
+      context: context,
+      title: "Select Color: ",
+      content: Column(
+        children: <Widget>[
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Color: ',
+            ),
+          ),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(
+            "Add",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        )
+      ]).show();
+}
+
+openImagePopup(context) {
+  Alert(
+      context: context,
+      title: "Insert Media: ",
+      content: Column(
+        children: <Widget>[
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Image URL: ',
+            ),
+          ),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(
+            "Add",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        )
+      ]).show();
+}
+
+openVideoPopup(context) {
+  Alert(
+      context: context,
+      title: "Insert Media: ",
+      content: Column(
+        children: <Widget>[
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Video URL: ',
+            ),
+          ),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(
+            "Add",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        )
+      ]).show();
+}
+
+openPollPopup(context) {
+  Alert(
+      context: context,
+      title: "Insert Media: ",
+      content: Column(
+        children: <Widget>[
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Image URL: ',
+            ),
+          ),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(
+            "Add",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        )
+      ]).show();
 }

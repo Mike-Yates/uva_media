@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mysql1/mysql1.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:uva_media/deprecated/flutter_session/flutter_session.dart';
+import 'package:uva_media/functions/functions.dart';
 
 class MyCustomForm extends StatefulWidget {
   const MyCustomForm({Key? key, required this.email}) : super(key: key);
@@ -70,34 +71,34 @@ class _MyCustomFormState extends State<MyCustomForm> {
       // Inserts into Post_Creator.  Need to retrieve email and password from active session.
       // Need to get the autoincrement value
 
-      //var result2 = await conn.query(
-      //  'insert into Post_Creator2 (email, pass, post_id) values (?,?,?)',
-      //["email", "password", 0]);
+      var result2 = await conn.query(
+          'insert into Post_Creators (post_id, email) values (?,?)',
+          [postId, widget.email]);
 
       //************************************************
       // Inserts specific types of posts.
       // Need to get the autoincrement value
 
-      //if(type == "Text"){
-      // var text_res = await conn.query(
-      //'insert into Text_Post (post_id, color) values (?,?)',
-      // [id, color]);
-      //}
-      //if(type == "Image"){
-      // var image_res = await conn.query(
-      //'insert into Images (post_id, content) values (?,?)',
-      // [id, content]);
-      //}
-      //if(type == "Video"){
-      // var video_res = await conn.query(
-      //'insert into Videos (post_id, content) values (?,?)',
-      // [id, content]);
-      //}
-      //if(type == "Poll"){
-      // var poll_res = await conn.query(
-      //'insert into Poll_Post (post_id, num_options) values (?,?)',
-      // [id, options]);
-      //}
+      if (type == "Text") {
+        var text_res = await conn.query(
+            'insert into Text_Post (post_id, color) values (?,?)',
+            [postId, "red"]);
+      }
+      if (type == "Image") {
+        var image_res = await conn.query(
+            'insert into Images (post_id, content) values (?,?)',
+            [postId, "url"]);
+      }
+      if (type == "Video") {
+        var video_res = await conn.query(
+            'insert into Videos (post_id, content) values (?,?)',
+            [postId, "url"]);
+      }
+      if (type == "Poll") {
+        var poll_res = await conn.query(
+            'insert into Poll_Post (post_id, num_options) values (?,?)',
+            [postId, "option num"]);
+      }
       //************************************************
       myController2.clear();
       return true;
@@ -210,7 +211,19 @@ class _MyCustomFormState extends State<MyCustomForm> {
                             },
                           );
                         } else {
-                          add_row_to_post(myController2.text);
+                          if (dropdownValue == "Text") {
+                            openTextPopup(context);
+                            add_row_to_post(myController2.text);
+                          } else if (dropdownValue == "Image") {
+                            openImagePopup(context);
+                            add_row_to_post(myController2.text);
+                          } else if (dropdownValue == "Video") {
+                            openVideoPopup(context);
+                            add_row_to_post(myController2.text);
+                          } else {
+                            openPollPopup(context);
+                            add_row_to_post(myController2.text);
+                          }
                         }
                       },
                       child: Text('Add', style: TextStyle(color: Colors.white)),
