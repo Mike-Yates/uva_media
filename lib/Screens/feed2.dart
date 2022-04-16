@@ -52,7 +52,11 @@ class _HomeViewState extends State<HomeView> {
                               color: Colors.green,
                             ),
                             iconSize: 40,
-                            onPressed: () {},
+                            onPressed: () {
+                              // ckeck if user has already voted
+                              // snapshot.data![index]['votes'] = snapshot.data![index]['votes'] - 1;
+                              // setPostVote(postId, newVoteCount);
+                            },
                           ),
                           IconButton(
                             icon: Icon(
