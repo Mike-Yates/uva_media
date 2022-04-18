@@ -21,8 +21,8 @@ class _HomeViewState extends State<HomeView> {
         title: Text('UVA Media'),
       ),
       body: FutureBuilder(
-          future: loadAllPostsAndUserLikes(
-              widget.user_email), // // loadAllPostsTest(),
+          future:
+              loadAllPostsTest(), // loadAllPostsAndUserLikes(widget.user_email), // // loadAllPostsTest(),
           builder: (BuildContext ctx, AsyncSnapshot<List> snapshot) => snapshot
                   .hasData
               ? ListView.builder(

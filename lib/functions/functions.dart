@@ -76,8 +76,8 @@ Future<List> loadAllPostsTest() async {
   // proceed with test
   List ret = []; // List <Map>
   for (var j = 0; j < posts.length; j++) {
-    ret.add(helper_loadAllPostsAndUserLikes(posts, j, false,
-        false)); // helper_loadAllPostsAndUserLikes(List posts, int index, bool liked, bool disliked)
+    ret.add(helper_loadAllPostsAndUserLikes(posts, j, true,
+        true)); // helper_loadAllPostsAndUserLikes(List posts, int index, bool liked, bool disliked)
   }
   return ret;
 }
