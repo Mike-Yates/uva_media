@@ -94,11 +94,6 @@ class _MyCustomFormState extends State<MyCustomForm> {
             'insert into Videos (post_id, content) values (?,?)',
             [postId, "url"]);
       }
-      if (type == "Poll") {
-        var poll_res = await conn.query(
-            'insert into Poll_Post (post_id, num_options) values (?,?)',
-            [postId, "option num"]);
-      }
       //************************************************
       myController2.clear();
       return true;
@@ -156,7 +151,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                       dropdownValue = newValue!;
                     });
                   },
-                  items: <String>['Text', 'Image', 'Video', 'Poll']
+                  items: <String>['Text', 'Image', 'Video']
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -217,11 +212,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
                           } else if (dropdownValue == "Image") {
                             openImagePopup(context);
                             add_row_to_post(myController2.text);
-                          } else if (dropdownValue == "Video") {
-                            openVideoPopup(context);
-                            add_row_to_post(myController2.text);
                           } else {
-                            openPollPopup(context);
+                            openVideoPopup(context);
                             add_row_to_post(myController2.text);
                           }
                         }

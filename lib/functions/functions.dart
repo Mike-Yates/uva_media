@@ -128,26 +128,3 @@ openVideoPopup(context) {
       ]).show();
 }
 
-openPollPopup(context) {
-  Alert(
-      context: context,
-      title: "Insert Media: ",
-      content: Column(
-        children: <Widget>[
-          TextField(
-            decoration: InputDecoration(
-              labelText: 'Image URL: ',
-            ),
-          ),
-        ],
-      ),
-      buttons: [
-        DialogButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(
-            "Add",
-            style: TextStyle(color: Colors.white, fontSize: 18),
-          ),
-        )
-      ]).show();
-}
