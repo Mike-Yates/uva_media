@@ -42,9 +42,52 @@ Future<List> loadAllPosts() async {
   return posts;
 }
 
+Map helper_loadAllPostsAndUserLikes(
+    List posts, int index, bool liked, bool disliked) {
+  Map ret = {};
+  ret['post_id'] = posts[index]['post_id'];
+  ret['post_time'] = posts[index]['post_time'];
+  ret['post_text'] = posts[index]['post_text'];
+  ret['votes'] = posts[index]['votes'];
+  ret['post_report'] = posts[index]['post_report'];
+  ret['post_type'] = posts[index]['post_type'];
+  ret['liked'] = liked;
+  ret['disliked'] = disliked;
+  return ret;
+}
+
+Future<List> loadAllPostsTest() async {
+  List posts = [];
+  try {
+    final conn = await MySqlConnection.connect(ConnectionSettings(
+        host: 'mysql01.cs.virginia.edu',
+        port: 3306,
+        user: 'mjy5xy',
+        db: 'mjy5xy',
+        password: 'Winter2022!!'));
+    var result = await conn.query('select * from Post');
+    for (var row in result) {
+      posts.add(row);
+    }
+  } catch (err) {
+    print(err);
+  }
+
+  // proceed with test
+  List ret = []; // List <Map>
+  for (var j = 0; j < posts.length; j++) {
+    ret.add(helper_loadAllPostsAndUserLikes(posts, j, false,
+        false)); // helper_loadAllPostsAndUserLikes(List posts, int index, bool liked, bool disliked)
+  }
+  return ret;
+}
+
 Future<List> loadAllPostsAndUserLikes(String username) async {
   List posts = [];
   List posts2 = [];
+  List ret = [];
+  print("username is");
+  print(username);
   try {
     final conn = await MySqlConnection.connect(ConnectionSettings(
         host: 'mysql01.cs.virginia.edu',
@@ -63,13 +106,14 @@ Future<List> loadAllPostsAndUserLikes(String username) async {
       posts2.add(row2);
       print('workinggggggg2');
     }
-
+    Map tooAdd = {};
     for (var j = 0; j < posts.length; j++) {
       // for each row in Posts
       print("entered loop");
       bool exists = false;
       for (var i = 0; i < posts2.length; i++) {
         print("loop stage 2");
+        print(j);
         // for each in Liked_Posts
         // check if row’s post id is equal to the row’s post id
         print(posts2[i]['post_id']); // prints 4 the first round
@@ -90,6 +134,7 @@ Future<List> loadAllPostsAndUserLikes(String username) async {
         print("got to here");
 
         if (posts2[i]['post_id'] == posts[j]['post_id']) {
+          // if 4 == 1
           // if they both have the same post id, it means the user has either liked or disliked the post.
           exists = true;
           print('loop stage 3');
@@ -100,27 +145,37 @@ Future<List> loadAllPostsAndUserLikes(String username) async {
             // this is either 1 (true) or 0 (false)
             // if its true, the user has liked this post.
             // append to list
-            posts[j]['liked'] = true;
-            posts[j]['disliked'] = false;
+            ret.add(helper_loadAllPostsAndUserLikes(posts, j, true, false));
+            // posts[j]['liked'] = true;
+            // posts[j]['disliked'] = false;
           } else {
             // this means user disliked post
-            posts[j]['liked'] = false;
-            posts[j]['disliked'] = true;
+            print(
+                "this should print when ids match but its disliked"); // current data will never cause this to print
+            // posts[j]['liked'] = false;
+            // posts[j]['disliked'] = true;
+            ret.add(helper_loadAllPostsAndUserLikes(posts, j, false, true));
           }
         }
+        print("end of checks");
       }
       if (!exists) {
         print("didnt exist");
         print(j);
         // if the posts wasnt found in liked_posts,
-        posts[j]['liked'] = false;
-        posts[j]['disliked'] = false;
+        // posts[j]['liked'] = 0;
+        print(posts.runtimeType);
+        print((posts[j]).runtimeType);
+        // posts[j]['liked'] = false;
+        // posts[j]['disliked'] = false;
+        ret.add(helper_loadAllPostsAndUserLikes(posts, j, false, false));
+        print("got past the assinging statements"); // Never gets printed!!
       }
     }
   } catch (err) {
     print(err);
   }
-  return posts;
+  return ret;
 }
 
 Future<List> loadAllComments(int postId) async {

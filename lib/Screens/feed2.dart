@@ -21,7 +21,8 @@ class _HomeViewState extends State<HomeView> {
         title: Text('UVA Media'),
       ),
       body: FutureBuilder(
-          future: loadAllPostsAndUserLikes(widget.user_email),
+          future: loadAllPostsAndUserLikes(
+              widget.user_email), // // loadAllPostsTest(),
           builder: (BuildContext ctx, AsyncSnapshot<List> snapshot) => snapshot
                   .hasData
               ? ListView.builder(
@@ -61,13 +62,15 @@ class _HomeViewState extends State<HomeView> {
                           IconButton(
                             icon: Icon(
                               Icons.arrow_circle_up_rounded,
-                              /*color: (boolToBool(snapshot.data![index]['liked'])
+                              color: (boolToBool(snapshot.data![index]['liked'])
                                   ? Colors.green
-                                  : Colors.red),*/
-                              color: Colors.green,
+                                  : Colors.red),
+                              // color: Colors.green,
                             ),
                             iconSize: 40,
-                            onPressed: () {},
+                            onPressed: () {
+                              print(snapshot.data![index]['liked']);
+                            },
                           ),
                         ],
                       ),
